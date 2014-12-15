@@ -177,7 +177,11 @@ class Spectra_T:
       if 'exit' in self.dump:
         sys.exit(0)
     
-    self.twodee_list(xml, self.output_format, self.output.split(","))
+    if self.output:
+      op = self.output.split(",")
+    else:
+      op = []
+    self.twodee_list(xml, self.output_format, op)
 
 # Some generic functions down here. 
 # http://stackoverflow.com/questions/1912434/how-do-i-parse-xml-in-python
