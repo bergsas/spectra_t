@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+import sys
+import os
+from argparse import ArgumentParser
+
+# My hack!
+sys.path.append("%s/.." %(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))) # Ho ho ho!
+
+import spectra_t
+
+spectra_t_url = os.environ.get("SPECTRA_T_URL")
+spectra_t_username = os.environ.get("SPECTRA_T_USERNAME")
+spectra_t_password = os.environ.get("SPECTRA_T_PASSWORD")
+spectra_t_cookiefile = os.environ.get("SPECTRA_T_COOKIEFILE")
+
+# Read some options
+parser = ArgumentParser(description='Spectralogic T Series, yo')
+parser.add_argument("-D", "--dump", action="append", help="Dump ''xml''")
+parser.add_argument("-x", "--xml", type=str, default=None, help="Read XML from this file instead of polling server.")
+args, leftover = parser.parse_known_args()
+
+if not spectra_t_url:
+  print "blurp: no Url"
+  sys.exit(1)
+
+st = Spectra_T(url=spectra_t_url, cookiefile = spectra_t_cookiefile)
+
+if not st:
+  print "Could not make spectra_t object"
+  sys.exit(1)
+
+if not st.login(username=spectra_t_username, password=spectra_t_password):
+  print "Could not login. Blurp"
+  sys.exit(1)
+
+
+
+spectra_t = Spectra_T(
+  url=spectra_t_url,
+  username=spectra_t_username,
+  password=spectra_t_password,
+  cookiefile = spectra_t_cookiefile,
+  args = args
+)
+
+if args.xml:
+  with open(args.xml, 'r') as myfile:
+    spectra_t.xml = myfile.read()
+
+spectra_t.drivelist()
+
+
+# vim: filetype=python
