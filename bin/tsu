@@ -4,9 +4,9 @@ import os
 from argparse import ArgumentParser
 
 # My hack!
-sys.path.append("%s/.." %(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))) # Ho ho ho!
+#sys.path.append("%s/.." %(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))) # Ho ho ho!
 
-import spectra_t
+from spectra_t import *
 
 spectra_t_url = os.environ.get("SPECTRA_T_URL")
 spectra_t_username = os.environ.get("SPECTRA_T_USERNAME")
@@ -15,39 +15,25 @@ spectra_t_cookiefile = os.environ.get("SPECTRA_T_COOKIEFILE")
 
 # Read some options
 parser = ArgumentParser(description='Spectralogic T Series, yo')
-parser.add_argument("-D", "--dump", action="append", help="Dump ''xml''")
-parser.add_argument("-x", "--xml", type=str, default=None, help="Read XML from this file instead of polling server.")
+parser.add_argument("-D", "--dump", action="append", default=[], help="Dump ''xml''")
+parser.add_argument("-X", "--xml-in", type=str, default=None, help="Read XML from this file instead of polling server.")
+parser.add_argument("-o", "--output",type=str, default=None, help="What tags to output (if applicable)")
+parser.add_argument("-O", "--output-format", type=str, default=None, help="Output format of lists")
 args, leftover = parser.parse_known_args()
 
-if not spectra_t_url:
-  print "blurp: no Url"
-  sys.exit(1)
+try:
+  st = Spectra_T(url=spectra_t_url, cookiefile=spectra_t_cookiefile)
+  
+  # All of these ad hoc things are ... well. messy.
+  st.fake_xml_input = args.xml_in
+  st.dump = args.dump
+  st.output = args.output
+  st.output_format = args.output_format
 
-st = Spectra_T(url=spectra_t_url, cookiefile = spectra_t_cookiefile)
-
-if not st:
-  print "Could not make spectra_t object"
-  sys.exit(1)
-
-if not st.login(username=spectra_t_username, password=spectra_t_password):
-  print "Could not login. Blurp"
-  sys.exit(1)
-
-
-
-spectra_t = Spectra_T(
-  url=spectra_t_url,
-  username=spectra_t_username,
-  password=spectra_t_password,
-  cookiefile = spectra_t_cookiefile,
-  args = args
-)
-
-if args.xml:
-  with open(args.xml, 'r') as myfile:
-    spectra_t.xml = myfile.read()
-
-spectra_t.drivelist()
-
-
+  st.execute(*leftover)
+#except Interrupt:
+#  print "^c"
+finally:
+  if st.curl_session:
+    st.curl_session.close()
 # vim: filetype=python
