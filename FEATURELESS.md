@@ -79,4 +79,4 @@ From the ref
     * reset
       * Inventory 
 
-# vim: ft=markdown
+vim: ft=markdown
