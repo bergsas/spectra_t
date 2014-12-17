@@ -1,9 +1,23 @@
+FEATURELESS
+===========
+
+Implemented/partially implemneted
+---------------------------------
+  * login
+      * username 
+        * IMPLEMENTED
+  * driveList
+      * [no parameters] 
+        * IMPLEMENTED
+
+From the ref
+------------
   * autosupport
       * generateASL 
       * getASLNames 
       * getASL 
   * driveList
-      * [no parameters] 
+#      * [no parameters] 
       * generateDriveTraces 
     * getDrive
       * Traces 
@@ -21,8 +35,8 @@
       * partition 
   * libraryStatus
       * [no parameters] 
-  * login
-      * username 
+#  * login
+#      * username 
   * logout
   * mediaExchange
       * clean 
@@ -64,3 +78,5 @@
       * resetRobot 
     * reset
       * Inventory 
+
+# vim: ft=markdown
