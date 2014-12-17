@@ -17,7 +17,7 @@ From the ref
       * getASLNames 
       * getASL 
   * driveList
-#      * [no parameters] 
+      * ~~[no parameters]~~
       * generateDriveTraces 
     * getDrive
       * Traces 
@@ -35,8 +35,8 @@ From the ref
       * partition 
   * libraryStatus
       * [no parameters] 
-#  * login
-#      * username 
+  * ~~login~~
+      * ~~username~~ 
   * logout
   * mediaExchange
       * clean 
