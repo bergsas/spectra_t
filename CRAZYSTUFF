@@ -1,0 +1,5 @@
+# Oneliner to generate a "beginner" for the featureless.md
+#   You have to remove some stuff after this.
+pdftotext "docs/Spectra T-Series Libraries XML Command Reference.pdf" - -layout -f 5 -l 7 | perl -lne 'printf "  * %s\n", $1 if /^Chapter.*– *([^ ]*).*$/i; next if /^[^ ]/; printf "    * %s\n", $1 if /^\s*([^.]+)$/; printf "      * %s\n", $1 if /^\s*([^\.]*)\..*$/' > stuff2.txt 
+
+
